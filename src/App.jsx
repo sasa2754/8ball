@@ -1,33 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import style from './App.module.css'
+import respostas from '../palavras.json'
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [resposta, setResposta] = useState('');
+  
+  useEffect(() => {
+    fetch('../palavras.json')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(response.data)
+      setResposta(data)
+    })
+  })
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header>
+        <h1>Faça uma pergunta para a bola mágica</h1>
+      </header>
+
+      <main>
+        <img className={style.bola} src="./bola-8.png" alt="bola" onClick={() => {}}/>
+        <div>
+          <h1>Resposta: {resposta}</h1>
+        </div>
+      </main>
     </>
   )
 }
